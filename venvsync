@@ -8,13 +8,14 @@
 # Copyright (c) 2024 makichiis 
 
 if [ -z $VIRTUAL_ENV ]; then
-    echo "No virtual environment enabled."
+    >&2 echo "$0: No virtual environment enabled."
     exit 1
 fi
 
+echo "Syncing..."
 pylint_match=$(pip list | grep -F pylint)
 if [ -z "$pylint_match" ]; then
-    echo "pylint not installed. The latest version will be installed."
+    >&2 echo "$0: pylint not installed. The latest version will be installed."
     pip install pylint
 fi
 
@@ -22,4 +23,6 @@ MASON_VENV_LOCALDIR=~/.local/share/nvim/mason/packages/pylint/venv
 
 rm -rf $MASON_VENV_LOCALDIR/*
 cp -r $VIRTUAL_ENV/* $MASON_VENV_LOCALDIR  
+
+echo "$0: local pylint venv successfully linked with $VIRTUAL_ENV_PROMPT"
 
